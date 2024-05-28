@@ -26,7 +26,7 @@ namespace ETicaretAPI.API.Controllers
         readonly IStorageService _storageService;
 
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService 
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileReadRepository fileReadRepository, IFileWriteRepository fileWriteRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService
             storageService)
         {
             _productWriteRepository = productWriteRepository;
@@ -106,17 +106,32 @@ namespace ETicaretAPI.API.Controllers
 
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
 
-         var datas=    await _storageService.UploadAsync("resource/files", Request.Form.Files);
+           List<(string fileName,string patgOrContainerName)> result= await _storageService.UploadAsync("photo-images", Request.Form.Files);
 
-         await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
-         {
-             FileName = d.fileName,
-             Path = d.pathOrContainerName,
-             Storage = _storageService.StorageName
-         }).ToList());
+
+          Product product = await _productReadRepository.GetByIdAsync(id);
+
+
+        await   _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
+           {
+               FileName = r.fileName,
+               Path = r.patgOrContainerName,
+               Storage = _storageService.StorageName,
+               Products = new List<Product>(){product}
+           }).ToList());
+
+        await _productImageFileWriteRepository.SaveAsync();
+            //var datas=    await _storageService.UploadAsync("resource/files", Request.Form.Files);
+
+            //await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            //{
+            //    FileName = d.fileName,
+            //    Path = d.pathOrContainerName,
+            //    Storage = _storageService.StorageName
+            //}).ToList());
 
 
             //var datas = await _fileService.UploadAsync("resource/files", Request.Form.Files);
