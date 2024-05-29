@@ -1,4 +1,5 @@
 using System.Data.SqlTypes;
+using ETicaretAPI.Application;
 using ETicaretAPI.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Filters;
@@ -11,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 
 builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationServices();
+
+
+
 //builder.Services.AddStorage(StorageState.Azure);
 builder.Services.AddStorage<LocalStorage>();
 //builder.Services.AddStorage<AzureStorage>();
