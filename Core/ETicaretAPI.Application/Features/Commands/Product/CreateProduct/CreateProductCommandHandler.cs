@@ -2,9 +2,9 @@
 using MediatR;
 using System.Net;
 
-namespace ETicaretAPI.Application.Features.Commands.CreateProduct;
+namespace ETicaretAPI.Application.Features.Commands.Product.CreateProduct;
 
-public class CreateProductCommandHandler:IRequestHandler<CreateProductCommandRequest,CreateProductCommandResponse>
+public class CreateProductCommandHandler : IRequestHandler<CreateProductCommandRequest, CreateProductCommandResponse>
 {
     private readonly IProductWriteRepository _productWriteRepository;
 
@@ -26,5 +26,5 @@ public class CreateProductCommandHandler:IRequestHandler<CreateProductCommandReq
         return new();
     }
 
-    
+
 }

@@ -8,7 +8,7 @@ using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Domain.Entities;
 using MediatR;
 
-namespace ETicaretAPI.Application.Features.Queries.GetAllProduct;
+namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct;
 public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
 {
     private readonly IProductReadRepository _productReadRepository;
