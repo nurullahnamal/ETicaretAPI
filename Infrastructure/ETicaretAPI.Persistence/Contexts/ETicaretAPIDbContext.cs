@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Common;
 using File = ETicaretAPI.Domain.Entities.File;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ETicaretAPI.Persistence.Contexts
 {
-    public class ETicaretAPIDbContext:DbContext
+    public class ETicaretAPIDbContext:IdentityDbContext
     {
         public ETicaretAPIDbContext(DbContextOptions  options):base(options)
         { }
